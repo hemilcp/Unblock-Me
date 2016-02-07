@@ -1,0 +1,69 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+
+struct node
+{ int barpos[5]; 
+  int barno;
+  struct node *link;
+}*TOP;
+typedef struct node stack;
+
+void push(int bars[5],int no)
+{ stack *NODE;
+  int i;
+  NODE=(stack*)malloc(sizeof(stack));
+  NODE->barno=no;
+  for(i=0;i<5;i++)
+  { NODE->barpos[i]=bars[i]; }
+  if(TOP==NULL)
+  {	NODE->link=NULL;
+	TOP=NODE;
+  }
+  else
+  { NODE->link=TOP;
+	TOP=NODE;
+  }
+}
+
+int pop(int bars[5])
+{	int i,n=-1;
+	stack *NODE;
+	if(TOP!=NULL)
+	{	NODE=TOP;
+		for(i=0;i<5;i++)
+		{ bars[i]=NODE->barpos[i]; }
+		n=NODE->barno;
+		TOP=TOP->link;
+		free(NODE);
+		return n;
+	}
+	else
+	{ for(i=0;i<5;i++)
+	  { bars[i]=0; }
+	  return -1; 
+	}
+}
+
+int main()
+{	int i,l1n;
+	int l1bars[][5]={{152,101,198,199,2},{302,101,348,199,2},{302,201,348,299,2},{202,301,248,399,2},{402,201,448,349,2},{151,252,299,298,1},{251,302,349,348,1},{251,352,349,398,1},{151,202,249,248,1}};
+	int bars[5]={0,0,0,0,0};
+	TOP=NULL;
+	push(l1bars[7],7);
+	printf("\n BARNO : %d\t BARPOS : %d %d %d %d %d",TOP->barno,TOP->barpos[0],TOP->barpos[1],TOP->barpos[2],TOP->barpos[3],TOP->barpos[4]); 
+	push(l1bars[2],2);
+	printf("\n BARNO : %d\t BARPOS : %d %d %d %d %d",TOP->barno,TOP->barpos[0],TOP->barpos[1],TOP->barpos[2],TOP->barpos[3],TOP->barpos[4]); 
+	push(l1bars[4],4);
+	printf("\n BARNO : %d\t BARPOS : %d %d %d %d %d",TOP->barno,TOP->barpos[0],TOP->barpos[1],TOP->barpos[2],TOP->barpos[3],TOP->barpos[4]); 
+	l1n=pop(bars);
+	printf("\n BARNO : %d\t BARPOS : %d %d %d %d %d",l1n,bars[0],bars[1],bars[2],bars[3],bars[4]); 
+	l1n=pop(bars);
+	printf("\n BARNO : %d\t BARPOS : %d %d %d %d %d",l1n,bars[0],bars[1],bars[2],bars[3],bars[4]); 
+	l1n=pop(bars);
+	printf("\n BARNO : %d\t BARPOS : %d %d %d %d %d",l1n,bars[0],bars[1],bars[2],bars[3],bars[4]); 
+	l1n=pop(bars);
+	printf("\n BARNO : %d",l1n); 
+	getch();
+	return 0;
+}
